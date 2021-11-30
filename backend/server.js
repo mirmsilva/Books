@@ -32,7 +32,6 @@ function getKey (header, callback) {
 
 // ------------------------------
 
-
 app.get ('/test-login', (req, res) => {
   // grab the token that was sent by the frontend
   const token = req.headers.authorization.split (' ')[1];

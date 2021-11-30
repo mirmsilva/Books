@@ -1,6 +1,10 @@
 # Backend
 
 ## Stuff I used:
+
+### Auth
+- https://auth0.com/docs/quickstart/backend/nodejs
+
 ### Gitignore
 - https://www.toptal.com/developers/gitignore/api/node,macos,linux,windows,webstorm,visualstudiocode
 
