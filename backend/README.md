@@ -1,8 +1,10 @@
 # Backend
 
 ## Stuff I used:
+### Mongo
+https://docs.mongodb.com/manual/tutorial/install-mongodb-on-os-x/
 
-### Auth
+### Auth0
 - https://auth0.com/docs/quickstart/backend/nodejs
 
 ### Gitignore
