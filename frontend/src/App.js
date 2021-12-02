@@ -7,22 +7,41 @@ import { withAuth0 } from '@auth0/auth0-react';
 
 
 class App extends React.Component{
- makeRequest = async () => {
-   const {getIdTokenClaims} = this.props.auth0;
-   let tokenClaims = await getIdTokenClaims();
-   const jwt = tokenClaims.__raw;
+  constructor (props){
+    super(props);
+    this.state = {
+      books: []
+    };
+  }
+//  makeRequest = async () => {
+//    const {getIdTokenClaims} = this.props.auth0;
+//    let tokenClaims = await getIdTokenClaims();
+//    const jwt = tokenClaims.__raw;
    
-   const config = {
-     headers:{"Authorization" : `Bearer ${jwt}`}
-   };
+//    const config = {
+//      headers:{"Authorization" : `Bearer ${jwt}`}
+//    };
 
-   const serverResponse = await axios.get('http://localhost:3001/test-login', config)
+   //const serverResponse = await axios.get('http://localhost:3001/test-login', config)
 
-   console.log(serverResponse);
- }
+   //console.log(serverResponse);
+
+   onFormSubmit = async (e) => {
+     e.preventDefault();
+      let bookData = await axios.get(`http://localhost:3001/books?searchQuery=${e.target.query.value}`);
+      console.log(bookData);
+      this.setState({books: bookData.data.docs})
+      console.log(this.state.books);
+      
+   }
+   
+ 
   render(){
     console.log(this.props.auth0);
     const {user, isAuthenticated, isLoading} = this.props.auth0;
+    const books = this.state.books;
+
+   
 
     if(isLoading){
       return<h2> Loading...</h2>
@@ -34,10 +53,25 @@ class App extends React.Component{
       <h1> Hello!</h1>
       {isAuthenticated ? 
       <LogoutButton/> : <LoginButton/>}
-      {user ? <> 
       <h3>{user.name}</h3> 
-      <button onClick={this.makeRequest}>Make request to server</button> </> : ''}
-      </> 
+
+      <h1>Find Books By Author</h1>
+      <form onSubmit={this.onFormSubmit}>
+        <input id="query" />
+        <input type="submit" value="search"/>
+      </form>
+       {/* {this.state.bookData.map(b => <p>{b.name}</p>)} */}
+       {console.log(books)}
+       <div>
+      <ol>
+          {
+          books.map(b => (
+            <p>{b.name}</p>
+          ))
+          }
+      </ol>
+    </div>
+      </>
     )
     }
   }
